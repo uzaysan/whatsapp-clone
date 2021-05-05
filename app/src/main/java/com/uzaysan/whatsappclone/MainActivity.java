@@ -1,45 +1,42 @@
 package com.uzaysan.whatsappclone;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.bluelinelabs.conductor.Conductor;
+import com.bluelinelabs.conductor.Router;
+import com.bluelinelabs.conductor.RouterTransaction;
+import com.uzaysan.whatsappclone.controllers.HomeController;
 
-public class MainActivity extends AppCompatActivity implements EventListener<QuerySnapshot> {
+public class MainActivity extends AppCompatActivity {
+
+    FrameLayout container;
+    Router router;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CollectionReference chatRef = FirebaseFirestore.getInstance().collection("Chats");
-        chatRef.addSnapshotListener(this);
+        container = findViewById(R.id.frameLayout);
+
+        router = Conductor.attachRouter(this, container, savedInstanceState);
+        if (!router.hasRootController()) {
+            router.setRoot(RouterTransaction.with(new HomeController()));
+        }
 
     }
 
+    public Router getRouter() {
+        return router;
+    }
 
     @Override
-    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-        if (error != null) {
-            Log.e("Firebase Error: ",error.getMessage());
-            return;
+    public void onBackPressed() {
+        if (!router.handleBack()) {
+            super.onBackPressed();
         }
-        Toast.makeText(this, "Update recieved", Toast.LENGTH_SHORT).show();
-        for (QueryDocumentSnapshot qds : value) {
-            Log.e("Firebase Object: ", qds.toString());
-        }
-
     }
 }
