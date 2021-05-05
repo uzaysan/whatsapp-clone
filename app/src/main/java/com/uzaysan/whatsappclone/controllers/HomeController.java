@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bluelinelabs.conductor.Controller;
 import com.bluelinelabs.conductor.RouterTransaction;
+import com.bumptech.glide.Glide;
 import com.uzaysan.whatsappclone.App;
 import com.uzaysan.whatsappclone.MainActivity;
 import com.uzaysan.whatsappclone.R;
@@ -40,7 +41,7 @@ public class HomeController extends Controller
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @Nullable Bundle savedViewState) {
         View view = inflater.inflate(R.layout.home_controller, container, false);
 
-        adapter = new ChatsAdapter();
+        adapter = new ChatsAdapter(Glide.with(getActivity()));
         adapter.setOnClickListener(this);
 
         RecyclerView recyclerView = view.findViewById(R.id.homeRecyclerView);
@@ -59,11 +60,6 @@ public class HomeController extends Controller
     @Override
     public void onClick(int position) {
         Toast.makeText(getActivity(), "On Click Triggered", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onLongClick(int position) {
-        Toast.makeText(getActivity(), "On Long Click Triggered", Toast.LENGTH_SHORT).show();
     }
 
     @Override

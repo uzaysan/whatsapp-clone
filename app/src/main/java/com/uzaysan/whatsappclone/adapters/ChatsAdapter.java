@@ -9,23 +9,38 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.RequestManager;
 import com.uzaysan.whatsappclone.R;
 import com.uzaysan.whatsappclone.models.Chat;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> {
 
     List<Chat> list = new ArrayList<>();
+    RequestManager glide;
     ChatAdapterClickListener listener;
 
+    public ChatsAdapter (RequestManager glide) {
+        this.glide = glide;
+    }
     public void setData(List<Chat> data) {
         this.list.addAll(data);
     }
 
     public void setOnClickListener(ChatAdapterClickListener listener) {
         this.listener = listener;
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull ViewHolder holder) {
+        super.onViewRecycled(holder);
+        glide.clear(holder.chatIcon);
+        holder.chatIcon.setImageDrawable(null);
+        holder.chatIcon.setImageBitmap(null);
     }
 
     @NonNull
@@ -37,6 +52,10 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Chat chat = list.get(holder.getAdapterPosition());
+        glide.load(chat.getChatInfo().getChatIcon()).into(holder.chatIcon);
+        holder.chatName.setText(chat.getChatInfo().getChatName());
+        holder.chatLastMessage.setText(chat.getLastMessage());
 
     }
 
@@ -48,10 +67,15 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout root;
+        CircleImageView chatIcon;
+        TextView chatName, chatLastMessage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             root = itemView.findViewById(R.id.chatItemRoot);
+            chatIcon = itemView.findViewById(R.id.chatIcon);
+            chatName = itemView.findViewById(R.id.chatName);
+            chatLastMessage = itemView.findViewById(R.id.chatLastMessage);
 
             if(listener != null) {
                 root.setOnClickListener(new View.OnClickListener() {
@@ -60,19 +84,11 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                         listener.onClick(getAdapterPosition());
                     }
                 });
-                root.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        listener.onLongClick(getAdapterPosition());
-                        return false;
-                    }
-                });
             }
         }
     }
 
     public interface ChatAdapterClickListener {
         void onClick(int position);
-        void onLongClick(int position);
     }
 }
