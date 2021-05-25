@@ -1,5 +1,6 @@
 package com.uzaysan.whatsappclone.adapters;
 
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
 import com.uzaysan.whatsappclone.R;
-import com.uzaysan.whatsappclone.models.Chat;
+import com.uzaysan.whatsappclone.models.chat.Chat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,8 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         this.glide = glide;
     }
     public void setData(List<Chat> data) {
-        this.list.addAll(data);
+        this.list = data;
+        notifyDataSetChanged();
     }
 
     public void setOnClickListener(ChatAdapterClickListener listener) {
@@ -53,9 +55,10 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Chat chat = list.get(holder.getAdapterPosition());
-        glide.load(chat.getChatInfo().getChatIcon()).into(holder.chatIcon);
-        holder.chatName.setText(chat.getChatInfo().getChatName());
+        glide.load(chat.getChatIcon()).into(holder.chatIcon);
+        holder.chatName.setText(chat.getChatName());
         holder.chatLastMessage.setText(chat.getLastMessage());
+        holder.time.setText(DateUtils.getRelativeTimeSpanString(chat.getUpdatedAt(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
 
     }
 
@@ -68,7 +71,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
         RelativeLayout root;
         CircleImageView chatIcon;
-        TextView chatName, chatLastMessage;
+        TextView chatName, chatLastMessage, time;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,7 +79,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             chatIcon = itemView.findViewById(R.id.chatIcon);
             chatName = itemView.findViewById(R.id.chatName);
             chatLastMessage = itemView.findViewById(R.id.chatLastMessage);
-
+            time = itemView.findViewById(R.id.chatUpdatedAt);
             if(listener != null) {
                 root.setOnClickListener(new View.OnClickListener() {
                     @Override

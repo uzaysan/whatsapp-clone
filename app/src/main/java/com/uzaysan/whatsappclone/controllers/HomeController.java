@@ -1,30 +1,24 @@
 package com.uzaysan.whatsappclone.controllers;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bluelinelabs.conductor.Controller;
-import com.bluelinelabs.conductor.RouterTransaction;
 import com.bumptech.glide.Glide;
-import com.uzaysan.whatsappclone.App;
 import com.uzaysan.whatsappclone.MainActivity;
 import com.uzaysan.whatsappclone.R;
 import com.uzaysan.whatsappclone.adapters.ChatsAdapter;
-import com.uzaysan.whatsappclone.controllers.base.BaseController;
-import com.uzaysan.whatsappclone.models.Chat;
+import com.uzaysan.whatsappclone.models.chat.Chat;
 import com.uzaysan.whatsappclone.viewmodels.ChatViewModel;
 
 import java.util.List;
@@ -66,7 +60,5 @@ public class HomeController extends Controller
     public void onChanged(List<Chat> chats) {
         Toast.makeText(getActivity(), "Update Recieved", Toast.LENGTH_SHORT).show();
         adapter.setData(chats);
-        adapter.notifyDataSetChanged();
-
     }
 }

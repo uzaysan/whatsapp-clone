@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/center"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="1dp"
                 android:id="@+id/chatName"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -56,9 +56,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/center"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
+                android:layout_toLeftOf="@+id/chatUpdatedAt"
+                android:layout_alignParentLeft="true"
                 android:textSize="16sp"
                 android:id="@+id/chatLastMessage"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/center"
+                android:layout_marginTop="1dp"
+                android:layout_alignParentRight="true"
+                android:textSize="14sp"
+                android:id="@+id/chatUpdatedAt"/>
 
         </RelativeLayout>
 
