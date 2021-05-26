@@ -49,7 +49,7 @@ public class ChatRepository {
     }
 
     public void deleteAll() {
-
+        new DeleteAllChatAsyncTask(chatDao).execute();
     }
 
     public LiveData<List<Chat>> getAllChats() {

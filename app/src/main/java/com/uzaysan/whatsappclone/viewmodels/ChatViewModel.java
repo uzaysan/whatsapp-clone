@@ -25,7 +25,7 @@ import java.util.Map;
 public class ChatViewModel extends AndroidViewModel implements EventListener<QuerySnapshot> {
 
     private final LiveData<List<Chat>> chatLiveData;
-    ChatRepository chatRepository;
+    private final ChatRepository chatRepository;
     CollectionReference chatRef;
 
     public ChatViewModel(@NonNull Application application) {
@@ -39,9 +39,9 @@ public class ChatViewModel extends AndroidViewModel implements EventListener<Que
         return this.chatLiveData;
     }
 
-    public void setUpData(int size) {
+    public void listenData() {
         chatRef = FirebaseFirestore.getInstance().collection("Chats");
-        chatRef.limit(size);
+        chatRef.limit(25);
         chatRef.addSnapshotListener(this);
     }
 

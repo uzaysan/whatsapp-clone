@@ -30,9 +30,9 @@ public interface ChatDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAllChats(List<Chat> chats);
 
-    @Query("DELETE from chat_table")
+    @Query("DELETE FROM chat_table")
     void deleteAllChats();
 
-    @Query("SELECT * from chat_table ORDER BY updatedAt DESC")
+    @Query("SELECT * FROM chat_table ORDER BY updatedAt DESC")
     LiveData<List<Chat>> getAllChats();
 }

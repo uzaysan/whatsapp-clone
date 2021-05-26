@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="whatsapp_green_toolbar">#075e55</color>
     <color name="whatsapp_statusbar_color">#054c44</color>
+    <color name="toolbarTextColor">#ffffff</color>
 </resources>

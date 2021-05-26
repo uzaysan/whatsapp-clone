@@ -31,10 +31,10 @@ public class Chat {
     public Chat(Map<String, Object> data) {
         this.id = (String) data.get("id");
         this.isGroupChat = (boolean) data.get("is_group_chat");
-        this.chatIcon =(String) ((Map<String, Object>) data.get("chat_info")).get("chat_icon");
-        this.chatName =(String) ((Map<String, Object>) data.get("chat_info")).get("chat_name");
+        this.chatIcon =(String) data.get("chat_icon");
+        this.chatName =(String) data.get("chat_name");
         this.lastMessage = (String) data.get("last_message");
-        this.members = TypeConverter.fromArrayList((ArrayList<String>) data.get("members"));
+        this.members = TypeConverter.stringFromArrayList((ArrayList<String>) data.get("members"));
         this.updatedAt = ((Timestamp) data.get("updated_at")).toDate().getTime();
     }
 
