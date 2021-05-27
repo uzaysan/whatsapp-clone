@@ -32,9 +32,9 @@ public class ProfileActivity extends AppCompatActivity implements Observer<User>
         profilePhoto = findViewById(R.id.profile_photo);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        userViewModel.startListen();
         LiveData<User> userLiveData = userViewModel.getUserLiveData(ParseUser.getCurrentUser().getObjectId());
         userLiveData.observe(this,this);
+        userViewModel.startListen();
 
     }
 

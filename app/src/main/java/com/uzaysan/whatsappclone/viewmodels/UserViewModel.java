@@ -1,6 +1,7 @@
 package com.uzaysan.whatsappclone.viewmodels;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -38,12 +39,22 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void startListen() {
-        ParseUser.getCurrentUser().fetchInBackground(new GetCallback<ParseObject>() {
+
+
+        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+        ParseQuery<ParseUser> parseQuery = ParseQuery.getQuery(ParseUser.class);
+        parseQuery.whereEqualTo("objectId",id);
+
+        SubscriptionHandling<ParseUser> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+        subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseUser>() {
             @Override
-            public void done(ParseObject object, ParseException e) {
-                if(e != null) return;
-                userRepository.insertUser(new User((ParseUser) object));
+            public void onEvents(ParseQuery<ParseUser> query, SubscriptionHandling.Event event, ParseUser object) {
+                if(object!=null) {
+                    Toast.makeText(getApplication().getApplicationContext(), "Update recieved", Toast.LENGTH_SHORT).show();
+                    userRepository.insertUser(new User(object));
+                }
             }
         });
+
     }
 }
