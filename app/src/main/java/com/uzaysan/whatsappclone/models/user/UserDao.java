@@ -22,8 +22,11 @@ public interface UserDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateUser(User user);
 
-    @Query("SELECT * FROM user_table WHERE id=:id")
+    @Query("SELECT * FROM user_table WHERE id = :id")
     LiveData<User> getUserById(String id);
+
+    @Query("SELECT * FROM user_table WHERE id IN (:ids)")
+    List<User> getUsersById(List<String> ids);
 
     @Query("DELETE FROM user_table")
     void deleteAllUsers();

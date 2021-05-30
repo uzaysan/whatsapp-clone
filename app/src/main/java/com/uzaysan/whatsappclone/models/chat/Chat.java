@@ -7,16 +7,14 @@ import androidx.room.PrimaryKey;
 
 import com.google.firebase.Timestamp;
 import com.uzaysan.whatsappclone.helper.TypeConverter;
+import com.uzaysan.whatsappclone.parseclasses.ParseChat;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Entity(tableName = "chat_table")
 public class Chat {
 
-    private long updatedAt;
+    private long updatedAt, lastMessageDate;
     private boolean isGroupChat;
     private String members;
     private String lastMessage;
@@ -34,12 +32,31 @@ public class Chat {
         this.chatIcon =(String) data.get("chat_icon");
         this.chatName =(String) data.get("chat_name");
         this.lastMessage = (String) data.get("last_message");
-        this.members = TypeConverter.stringFromArrayList((ArrayList<String>) data.get("members"));
+        this.members = TypeConverter.stringFromArrayList((List<String>) data.get("members"));
         this.updatedAt = ((Timestamp) data.get("updated_at")).toDate().getTime();
+        this.lastMessageDate = ((Timestamp) data.get("last_message_date")).toDate().getTime();
     }
 
+    public Chat(ParseChat data) {
+        this.id = data.getObjectId();
+        this.isGroupChat = data.getIsGroupChat();
+        this.chatIcon = data.getChatIconURL();
+        this.chatName = data.getChatName();
+        this.lastMessage = data.getLastMessage();
+        this.members = TypeConverter.stringFromArrayList(data.getMembers());
+        this.updatedAt = data.getUpdatedAt().getTime();
+        this.lastMessageDate = data.getLastMessageDate().getTime();
+    }
 
     public Chat() {
+    }
+
+    public long getLastMessageDate() {
+        return lastMessageDate;
+    }
+
+    public void setLastMessageDate(long lastMessageDate) {
+        this.lastMessageDate = lastMessageDate;
     }
 
     public String getChatIcon() {
@@ -77,7 +94,6 @@ public class Chat {
     public String getMembers() {
         return members;
     }
-
 
     public void setMembers(String members) {
         this.members = members;

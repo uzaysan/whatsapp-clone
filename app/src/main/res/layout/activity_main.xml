@@ -23,6 +23,21 @@
             android:textStyle="bold"
             android:layout_marginStart="10dp"
             android:text="@string/chatsToolbarText"/>
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/addNewChat">
+            <ImageView
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_add"/>
+        </FrameLayout>
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -30,5 +45,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:id="@+id/homeRecyclerView"/>
+
+
 
 </RelativeLayout>

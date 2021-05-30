@@ -35,4 +35,7 @@ public interface ChatDao {
 
     @Query("SELECT * FROM chat_table ORDER BY updatedAt DESC")
     LiveData<List<Chat>> getAllChats();
+
+    @Query("SELECT * FROM chat_table WHERE id=:id")
+    LiveData<Chat> getChatById(String id);
 }

@@ -84,7 +84,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                 root.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onClick(getAdapterPosition());
+                        listener.onClick(list.get(getAdapterPosition()).getId());
                     }
                 });
             }
@@ -92,6 +92,6 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     }
 
     public interface ChatAdapterClickListener {
-        void onClick(int position);
+        void onClick(String id);
     }
 }

@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClick(int position) {
-        startActivity(new Intent(this, ProfileActivity.class));
+    public void onClick(String id) {
+        startActivity(new Intent(this, MessagesActivity.class).putExtra("chat_id",id));
     }
 
     @Override

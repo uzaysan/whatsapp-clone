@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#efe6de"
+    tools:context=".activities.MessagesActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="50dp"
+        android:id="@+id/toolbar"
+        android:background="?attr/colorPrimary">
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/back">
+            <ImageView
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/icback"/>
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:paddingStart="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:layout_height="match_parent"
+            android:id="@+id/chat_layout"
+            android:layout_toEndOf="@id/back">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:id="@+id/chat_icon"
+                android:layout_centerVertical="true"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_centerVertical="true"
+                android:id="@+id/center_view"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_toEndOf="@id/chat_icon"
+                android:layout_marginStart="10dp"
+                android:id="@+id/chat_name"
+                android:layout_above="@id/center_view"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_toEndOf="@id/chat_icon"
+                android:layout_marginStart="10dp"
+                android:id="@+id/chat_members"
+                android:layout_below="@id/center_view"/>
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@+id/messageInputLayout"
+        android:id="@+id/recycler_view"/>
+
+    <com.quarkworks.roundedframelayout.RoundedFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:elevation="2dp"
+        android:id="@+id/messageInputLayout"
+        app:cornerRadius="25dp"
+        android:layout_margin="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <RelativeLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/camera_icon"
+                android:background="?attr/selectableItemBackground">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_camera"
+                    android:padding="11dp"/>
+            </RelativeLayout>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_marginEnd="10dp"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/camera_icon"
+                android:layout_toStartOf="@id/send_button"
+                android:hint="Message..."
+                android:background="@color/white"
+                android:id="@+id/chatInput"/>
+
+            <com.quarkworks.roundedframelayout.RoundedFrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cornerRadius="20dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/send_button"
+                android:background="?attr/selectableItemBackground">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:background="@color/whatsapp_green_toolbar"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/send"
+                    android:padding="7dp"/>
+            </com.quarkworks.roundedframelayout.RoundedFrameLayout>
+        </RelativeLayout>
+
+    </com.quarkworks.roundedframelayout.RoundedFrameLayout>
+
+</RelativeLayout>

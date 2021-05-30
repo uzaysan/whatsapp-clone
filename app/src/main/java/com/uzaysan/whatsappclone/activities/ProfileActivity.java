@@ -39,9 +39,6 @@ public class ProfileActivity extends AppCompatActivity implements Observer<User>
     }
 
     private void update(User user) {
-        System.out.println("User name:" + user.getName());
-        System.out.println("User status:" + user.getStatus());
-        System.out.println("User name:" + user.getProfile_photo());
         name.setText(user.getName());
         status.setText(user.getStatus());
         Glide.with(this).load(user.getProfile_photo()).into(profilePhoto);

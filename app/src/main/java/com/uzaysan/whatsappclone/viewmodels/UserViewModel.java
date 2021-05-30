@@ -39,8 +39,6 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     public void startListen() {
-
-
         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
         ParseQuery<ParseUser> parseQuery = ParseQuery.getQuery(ParseUser.class);
         parseQuery.whereEqualTo("objectId",id);
@@ -50,7 +48,7 @@ public class UserViewModel extends AndroidViewModel {
             @Override
             public void onEvents(ParseQuery<ParseUser> query, SubscriptionHandling.Event event, ParseUser object) {
                 if(object!=null) {
-                    Toast.makeText(getApplication().getApplicationContext(), "Update recieved", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplication().getApplicationContext(), "Update recieved", Toast.LENGTH_SHORT).show();
                     userRepository.insertUser(new User(object));
                 }
             }

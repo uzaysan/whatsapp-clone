@@ -14,12 +14,18 @@ import java.util.List;
 public class ChatRepository {
 
     private LiveData<List<Chat>> allChats;
+    private LiveData<Chat> chat;
     private ChatDao chatDao;
 
     public ChatRepository(Context context) {
         AppDatabase appDatabase = AppDatabase.getInstance(context);
         chatDao = appDatabase.chatDao();
         allChats = chatDao.getAllChats();
+    }
+
+    public LiveData<Chat> getChatById(String id) {
+        chat = chatDao.getChatById(id);
+        return chat;
     }
 
     public void insert(Chat chat) {
