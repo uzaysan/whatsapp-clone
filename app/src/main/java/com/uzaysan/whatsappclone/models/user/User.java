@@ -2,6 +2,7 @@ package com.uzaysan.whatsappclone.models.user;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.parse.ParseUser;
@@ -15,6 +16,7 @@ public class User {
     @PrimaryKey
     String id;
 
+    @Ignore
     public User(ParseUser user) {
         this.id = user.getObjectId();
         this.username = user.getUsername();

@@ -10,6 +10,7 @@ import com.uzaysan.whatsappclone.database.AppDatabase;
 import com.uzaysan.whatsappclone.models.chat.Chat;
 import com.uzaysan.whatsappclone.models.chat.ChatDao;
 import com.uzaysan.whatsappclone.models.chat.ChatRepository;
+import com.uzaysan.whatsappclone.models.user.UserDao;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,19 +18,27 @@ import java.util.List;
 
 public class MessageRepository {
 
-    LiveData<List<Message>> messages;
     MessageDao messageDao;
-    List<Message> messageList = new ArrayList<>();
+    UserDao userDao;
+
 
     public MessageRepository(Context context) {
         AppDatabase appDatabase = AppDatabase.getInstance(context);
         this.messageDao = appDatabase.messageDao();
+        this.userDao = appDatabase.userDao();
 
     }
 
+    public MessageDao getMessageDao() {
+        return messageDao;
+    }
+
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
     public LiveData<List<Message>> getMessages(String chat) {
-        this.messages = messageDao.getMessages(chat);
-        return messages;
+        return messageDao.getMessages(chat);
     }
 
     public void insert(Message message) {
@@ -53,4 +62,6 @@ public class MessageRepository {
             return null;
         }
     }
+
+
 }

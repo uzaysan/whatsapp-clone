@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import com.uzaysan.whatsappclone.database.AppDatabase;
+import com.uzaysan.whatsappclone.models.user.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,9 +14,8 @@ import java.util.List;
 
 public class ChatRepository {
 
-    private LiveData<List<Chat>> allChats;
-    private LiveData<Chat> chat;
-    private ChatDao chatDao;
+    private final LiveData<List<Chat>> allChats;
+    private final ChatDao chatDao;
 
     public ChatRepository(Context context) {
         AppDatabase appDatabase = AppDatabase.getInstance(context);
@@ -24,8 +24,11 @@ public class ChatRepository {
     }
 
     public LiveData<Chat> getChatById(String id) {
-        chat = chatDao.getChatById(id);
-        return chat;
+        return chatDao.getChatById(id);
+    }
+
+    public void updateMembers(List<User> members) {
+        new UpdateMembersAsyncTask(chatDao).execute(members);
     }
 
     public void insert(Chat chat) {
@@ -107,6 +110,21 @@ public class ChatRepository {
         @Override
         protected Void doInBackground(Void... voids) {
             chatDao.deleteAllChats();
+            return null;
+        }
+    }
+
+    private static class UpdateMembersAsyncTask extends AsyncTask<List<User>, Void, Void> {
+
+        ChatDao chatDao;
+
+        private UpdateMembersAsyncTask(ChatDao chatDao) {
+            this.chatDao = chatDao;
+        }
+
+        @Override
+        protected Void doInBackground(List<User>... lists) {
+            chatDao.updateMembers(lists[0]);
             return null;
         }
     }

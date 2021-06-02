@@ -1,6 +1,7 @@
 package com.uzaysan.whatsappclone.models.message;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.uzaysan.whatsappclone.models.user.User;
@@ -18,6 +19,7 @@ public class Message {
     String message, owner_name, owner_profile_photo, chat, owner;
     long created_at;
 
+    @Ignore
     public Message(ParseMessage data) {
         this.id = data.getObjectId();
         this.chat = data.getChat();
@@ -29,6 +31,14 @@ public class Message {
     }
 
     public Message() {}
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 
     @NotNull
     public String getId() {

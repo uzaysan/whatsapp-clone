@@ -25,6 +25,9 @@ public interface UserDao {
     @Query("SELECT * FROM user_table WHERE id = :id")
     LiveData<User> getUserById(String id);
 
+    @Query("SELECT * FROM user_table WHERE id = :id")
+    User getUserByIdSync(String id);
+
     @Query("SELECT * FROM user_table WHERE id IN (:ids)")
     List<User> getUsersById(List<String> ids);
 

@@ -8,6 +8,8 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.uzaysan.whatsappclone.models.user.User;
+
 import java.util.List;
 
 @Dao
@@ -21,6 +23,10 @@ public interface ChatDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateAllChats(List<Chat> chats);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void updateMembers(List<User> users);
+
     @Delete
     void deleteChat(Chat chat);
 

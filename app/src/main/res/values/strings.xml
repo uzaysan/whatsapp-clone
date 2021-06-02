@@ -12,5 +12,6 @@
     <string name="login_failed">"Login failed"</string>
     <string name="or">or</string>
     <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="register">Register</string>m
+    <string name="members"> members</string>
 </resources>

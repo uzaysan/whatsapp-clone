@@ -34,11 +34,8 @@ import java.util.Map;
 
 public class ChatViewModel extends AndroidViewModel implements EventListener<QuerySnapshot> {
 
-    private LiveData<List<Chat>> chatLiveData;
     ParseLiveQueryClient parseLiveQueryClient;
-    private LiveData<Chat> chat;
     private final ChatRepository chatRepository;
-    CollectionReference chatRef;
 
     public ChatViewModel(@NonNull Application application) {
         super(application);
@@ -56,14 +53,31 @@ public class ChatViewModel extends AndroidViewModel implements EventListener<Que
                 }
             }
         });
-        chat = chatRepository.getChatById(id);
-        return chat;
+        return chatRepository.getChatById(id);
+
+    }
+
+    public void updateMembers(List<String> members) {
+        ParseQuery<ParseUser> getMembers = new ParseQuery<ParseUser>(ParseUser.class);
+        getMembers.whereContainedIn("objectId",members);
+        getMembers.setLimit(members.size());
+        getMembers.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+                if(e != null) return;
+                List<User> users = new ArrayList<>();
+                for(ParseUser user : objects) {
+                    users.add(new User(user));
+                }
+                chatRepository.updateMembers(users);
+            }
+        });
+
     }
 
 
     public LiveData<List<Chat>> getChats() {
-        this.chatLiveData = chatRepository.getAllChats();
-        return this.chatLiveData;
+        return chatRepository.getAllChats();
     }
 
     public void listenData() {
