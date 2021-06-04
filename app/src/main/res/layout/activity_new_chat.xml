@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.NewChatSearchUserActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="50dp"
+        android:id="@+id/toolbar"
+        android:background="?attr/colorPrimary">
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/back">
+            <ImageView
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/icback"/>
+        </FrameLayout>
+
+        <androidx.appcompat.widget.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:queryHint="@string/searchuser"
+            android:id="@+id/search"
+            app:iconifiedByDefault="false"
+            android:layout_toRightOf="@id/back"/>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/selectedUsersRecyclerview"
+        android:layout_below="@id/toolbar"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#999"
+        android:layout_below="@id/selectedUsersRecyclerview"
+        android:id="@+id/seperator"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/seperator"
+        android:id="@+id/usersRecyclerview"/>
+
+    <com.quarkworks.roundedframelayout.RoundedFrameLayout
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:cornerRadius="27.5dp"
+        android:id="@+id/nextButtonWrapper"
+        android:visibility="invisible"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        android:background="@color/whatsapp_green_toolbar">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/next">
+            <ImageView
+                android:layout_width="match_parent"
+                android:padding="5dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_next"/>
+        </RelativeLayout>
+    </com.quarkworks.roundedframelayout.RoundedFrameLayout>
+
+</RelativeLayout>

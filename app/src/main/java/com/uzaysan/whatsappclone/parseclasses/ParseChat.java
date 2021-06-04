@@ -44,18 +44,13 @@ public class ParseChat extends ParseObject {
         put("members",current);
     }
 
-    public synchronized void addMember(List<ParseUser> users) {
-        List<String> current = getList("members");
-        List<String> tmp = new ArrayList<>();
-        for (ParseUser user : users) {
-            tmp.add(user.getObjectId());
-        }
-        current.addAll(tmp);
-        put("members",current);
+    public synchronized void addMember(List<String> users) {
+
+        put("members",users);
     }
 
-    public void setIsGroupChat() {
-        put("is_group_chat",true);
+    public void setIsGroupChat(boolean isGroupChat) {
+        put("is_group_chat",isGroupChat);
     }
 
     public void setLastMessage(String message) {

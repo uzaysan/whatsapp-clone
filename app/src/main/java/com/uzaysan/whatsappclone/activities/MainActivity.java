@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
 import com.parse.ParseUser;
 import com.uzaysan.whatsappclone.R;
 import com.uzaysan.whatsappclone.adapters.ChatsAdapter;
@@ -49,6 +50,14 @@ public class MainActivity extends AppCompatActivity
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         chatViewModel.getChats().observe(this,this);
         chatViewModel.listenData();
+
+        FrameLayout addNewChat = findViewById(R.id.addNewChat);
+        addNewChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NewChatSearchUserActivity.class));
+            }
+        });
 
     }
 

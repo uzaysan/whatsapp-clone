@@ -34,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity implements Observer<User>
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         LiveData<User> userLiveData = userViewModel.getUserLiveData(ParseUser.getCurrentUser().getObjectId());
         userLiveData.observe(this,this);
-        userViewModel.startListen();
+        //userViewModel.startListen();
 
     }
 

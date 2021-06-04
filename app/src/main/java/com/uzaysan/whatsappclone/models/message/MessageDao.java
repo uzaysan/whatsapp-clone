@@ -29,7 +29,7 @@ public interface MessageDao {
     @Query("SELECT * FROM message_table WHERE chat=:chat  ORDER BY created_at DESC LIMIT 50")
     List<Message> getMessagesInit(String chat);
 
-    @Query("SELECT * FROM message_table WHERE chat=:chat AND created_at>:date ORDER BY created_at DESC LIMIT 500")
+    @Query("SELECT * FROM message_table WHERE chat=:chat AND created_at<:date ORDER BY created_at DESC LIMIT 500")
     List<Message> getMessagesBeforeDate(String chat, long date);
 
 

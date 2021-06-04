@@ -7,6 +7,9 @@ public class MessageWithUser {
 
     private User user;
     private Message message;
+    private int type;
+
+    public static final int TYPE_LOAD = 1453;
 
     public MessageWithUser(User user, Message message) {
         this.user = user;
@@ -29,4 +32,11 @@ public class MessageWithUser {
         this.message = message;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 }

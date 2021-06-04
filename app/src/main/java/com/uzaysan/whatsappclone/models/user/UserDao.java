@@ -25,6 +25,9 @@ public interface UserDao {
     @Query("SELECT * FROM user_table WHERE id = :id")
     LiveData<User> getUserById(String id);
 
+    @Query("SELECT id, username, name, profile_photo FROM user_table WHERE id!=:current AND username LIKE :query OR name LIKE :query LIMIT 50")
+    List<User> getUserByString(String query, String current);
+
     @Query("SELECT * FROM user_table WHERE id = :id")
     User getUserByIdSync(String id);
 

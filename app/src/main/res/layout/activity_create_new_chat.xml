@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    tools:context=".activities.CreateNewChatActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="50dp"
+        android:id="@+id/toolbar"
+        android:background="?attr/colorPrimary">
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/back">
+            <ImageView
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/icback"/>
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/back"
+            android:textColor="@color/toolbarTextColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            android:text="@string/create"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+            <RelativeLayout
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@color/white"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:id="@+id/group_icon_layout">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/group_icon"
+                    android:src="@drawable/placeholder"
+                    android:scaleType="centerCrop"/>
+                
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_pen"
+                    android:background="#CDCBCB"/>
+                
+            </RelativeLayout>
+            
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/chat_name"
+                android:hint="@string/chatname"
+                android:maxLines="1"
+
+                android:layout_below="@id/group_icon_layout"
+                android:layout_margin="50dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/create_chat"
+                android:layout_below="@id/chat_name"
+                android:text="@string/create"
+                android:layout_margin="50dp"/>
+            
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,5 +1,6 @@
  package com.uzaysan.whatsappclone.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,6 +32,7 @@ import com.uzaysan.whatsappclone.viewmodels.MessageViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -48,6 +50,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
     MessagesAdapter adapter;
 
     MessageViewModel messageViewModel;
+    boolean isLoading = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +91,28 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
         messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
 
-
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy < 0 && layoutManager.findLastVisibleItemPosition() > list.size() - 10) {
+                    loadMore();
+                }
+            }
+        });
     }
+
+     @SuppressLint("DefaultLocale")
+     @Override
+     public void onChanged(Chat chat) {
+         setChat(chat);
+         chatViewModel.updateMembers(TypeConverter.arrayFromString(chat.getMembers()));
+         Glide.with(this)
+                 .load(chat.getChatIcon())
+                 .into(chatIcon);
+         chatName.setText(chat.getChatName());
+         chatMembers.setText(String.format("%d%s", TypeConverter.arrayFromString(chat.getMembers()).size(), getString(R.string.members)));
+     }
 
      @Override
      public void onClick(View v) {
@@ -110,21 +134,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
         }
      }
 
-     @Override
-     public void onBackPressed() {
-         super.onBackPressed();
-     }
-
-     @SuppressLint("DefaultLocale")
-     @Override
-     public void onChanged(Chat chat) {
-         setChat(chat);
-         chatViewModel.updateMembers(TypeConverter.arrayFromString(chat.getMembers()));
-         Glide.with(this)
-                 .load(chat.getChatIcon())
-                 .into(chatIcon);
-         chatName.setText(chat.getChatName());
-         chatMembers.setText(String.format("%d%s", TypeConverter.arrayFromString(chat.getMembers()).size(), getString(R.string.members)));
+     private synchronized void loadMore() {
+        if(!isLoading) {
+            isLoading = true;
+            messageViewModel.loadMessages(chat.getId(), list.get(list.size() - 1).getMessage().getCreated_at());
+        }
      }
 
      private synchronized void setChat(Chat chat) {
@@ -139,11 +153,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
                 }
             });
 
-            messageViewModel.getMessageWithUserLiveData().observe(this, new Observer<List<MessageWithUser>>() {
+            messageViewModel.getMessageWithUserLiveData().observe(this, new Observer<Map<String, Object>>() {
                 @Override
-                public void onChanged(List<MessageWithUser> messageWithUsers) {
-                    Log.e("size: ", messageWithUsers.size() + "");
-                    addItems(messageWithUsers, MessageViewModel.TYPE_ADD_END);
+                public void onChanged(Map<String, Object> map) {
+                    addItems((List<MessageWithUser>) map.get("list"), (int) map.get("direction"));
                 }
             });
 
@@ -152,7 +165,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
             messageViewModel.getRealtimeUpdates(chat.getId()).observe(this, new Observer<List<Message>>() {
                 @Override
                 public void onChanged(List<Message> messageList) {
-                    //addItems(messageList, MessageViewModel.TYPE_ADD_START);
+                    for(Message message : messageList) {
+                        messageViewModel.loadSingleMessage(message);
+                    }
                 }
             });
 
@@ -174,7 +189,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
                     adapter.notifyDataSetChanged();
                 }
             }
-
+            isLoading = false;
         }
         else if(direction == MessageViewModel.TYPE_ADD_START) {
             if (messageList.size() > 0) {
@@ -191,4 +206,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
             }
         }
      }
+
+     @Override
+     public void onBackPressed() {
+         super.onBackPressed();
+     }
+
  }

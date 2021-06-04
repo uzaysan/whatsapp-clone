@@ -4,10 +4,13 @@ import android.app.Application;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.uzaysan.whatsappclone.activities.NewChatSearchUserActivity;
 import com.uzaysan.whatsappclone.parseclasses.ParseChat;
 import com.uzaysan.whatsappclone.parseclasses.ParseMessage;
 
 public class App extends Application {
+
+    public static NewChatSearchUserActivity searchUserActivity;
 
     @Override
     public void onCreate() {

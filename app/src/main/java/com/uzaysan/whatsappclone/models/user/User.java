@@ -1,6 +1,7 @@
 package com.uzaysan.whatsappclone.models.user;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -68,5 +69,19 @@ public class User {
 
     public void setId(@NonNull String id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean res = false;
+        if(obj instanceof User) {
+            if(((User)obj).getId().equals(this.id)) res = true;
+        }
+        return res;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
     }
 }

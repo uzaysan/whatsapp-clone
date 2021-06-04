@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.quarkworks.roundedframelayout.RoundedFrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        app:cornerRadius="25dp"
+        android:background="#FFC107">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:id="@id/root"
+            android:layout_height="50dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:id="@+id/profile_photo"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/profile_photo"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:id="@+id/name"
+                android:maxLines="1"
+                android:maxLength="15"/>
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_margin="5dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/name"
+                android:src="@drawable/ic_close"/>
+
+        </RelativeLayout>
+
+    </com.quarkworks.roundedframelayout.RoundedFrameLayout>
+
+</RelativeLayout>

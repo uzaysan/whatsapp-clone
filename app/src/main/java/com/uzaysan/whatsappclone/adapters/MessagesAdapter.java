@@ -84,6 +84,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         if(getItemViewType(holder.getAdapterPosition()) == TYPE_OTHERS) {
 
             User user = list.get(holder.getAdapterPosition()).getUser();
+            if(user == null) return;
 
             if(holder.getAdapterPosition() + 1 < list.size()
                     && list.get(holder.getAdapterPosition() + 1).getUser().getId().equals(user.getId())){

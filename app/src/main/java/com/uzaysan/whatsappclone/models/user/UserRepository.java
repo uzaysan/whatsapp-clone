@@ -22,9 +22,12 @@ public class UserRepository {
         userDao = appDatabase.userDao();
     }
 
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
     public LiveData<User> getUserLiveData(String id) {
-        userLiveData = userDao.getUserById(id);
-        return userLiveData;
+        return userDao.getUserById(id);
     }
 
     public void insertUser(User user) {

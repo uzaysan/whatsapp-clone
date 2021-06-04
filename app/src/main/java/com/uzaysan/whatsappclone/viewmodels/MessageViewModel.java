@@ -38,7 +38,7 @@ public class MessageViewModel extends AndroidViewModel {
     ParseLiveQueryClient parseLiveQueryClient;
     MessageRepository messageRepository;
     MutableLiveData<List<Message>> messageLiveData;
-    MutableLiveData<List<MessageWithUser>> messageWithUserLiveData;
+    MutableLiveData<Map<String, Object>> messageWithUserLiveData;
 
 
     MessageDao messageDao;
@@ -59,7 +59,7 @@ public class MessageViewModel extends AndroidViewModel {
 
     }
 
-    public MutableLiveData<List<MessageWithUser>> getMessageWithUserLiveData() {
+    public MutableLiveData<Map<String, Object>> getMessageWithUserLiveData() {
         messageWithUserLiveData = new MutableLiveData<>();
 
         return messageWithUserLiveData;
@@ -71,7 +71,11 @@ public class MessageViewModel extends AndroidViewModel {
 
 
     public void loadMessages(String chat, long date) {
-        new GetMessages(messageLiveData,date,chat,messageDao, userDao, messageWithUserLiveData).execute();
+        new GetMessages(date,chat,messageDao, userDao, messageWithUserLiveData).execute();
+    }
+
+    public void loadSingleMessage(Message message) {
+        new GetSingleMessage(message, userDao, messageWithUserLiveData).execute();
     }
 
     public void startListen(String chat) {
@@ -110,19 +114,16 @@ public class MessageViewModel extends AndroidViewModel {
 
     private static class GetMessages extends AsyncTask<Void, Void, Void> {
 
-        MutableLiveData<List<Message>> messageLiveData;
         long date;
         String chat;
         MessageDao messageDao;
         UserDao userDao;
-        MutableLiveData<List<MessageWithUser>> messageWithUserLiveData;
-        public GetMessages(MutableLiveData<List<Message>> messageLiveData
-                , long date
+        MutableLiveData<Map<String, Object>> messageWithUserLiveData;
+        public GetMessages(long date
                 , String chat
                 , MessageDao messageDao
                 , UserDao userDao
-                , MutableLiveData<List<MessageWithUser>> messageWithUserLiveData) {
-            this.messageLiveData = messageLiveData;
+                , MutableLiveData<Map<String, Object>> messageWithUserLiveData) {
             this.date = date;
             this.chat = chat;
             this.messageDao = messageDao;
@@ -132,32 +133,83 @@ public class MessageViewModel extends AndroidViewModel {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            List<Message> messages;
             if(date == 0) {
-                List<Message> messages = messageDao.getMessagesInit(chat);
-                List<String> ids = new ArrayList<>();
-                for(Message message : messages) {
-                    ids.add(message.getOwner());
-                }
-                List<User> users = userDao.getUsersById(ids);
-                List<MessageWithUser> result = new ArrayList<>();
-                for(int i = users.size() - 1; i >= 0; i--) {
-                    for(int j = messages.size() - 1; j >= 0; j--) {
-                        if(messages.get(j).getOwner().equals(users.get(i).getId())) {
-                            result.add(0, new MessageWithUser(users.get(i),messages.get(j)));
-                            messages.remove(j);
-                        }
-                    }
+                messages = messageDao.getMessagesInit(chat);
+            }
+            else {
+                messages = messageDao.getMessagesBeforeDate(chat, date);
+            }
+            List<MessageWithUser> result = new ArrayList<>();
+
+            for (int i = 0; i < messages.size() - 1; i++) {
+                Message message = messages.get(i);
+                User user = userDao.getUserByIdSync(message.getOwner());
+                if (user != null) {
+                    result.add(new MessageWithUser(user, message));
+                    continue;
                 }
 
-                messageWithUserLiveData.postValue(result);
-                messageLiveData.postValue(messages);
-                return null;
+                try {
+                    ParseQuery<ParseUser> getUser = new ParseQuery<ParseUser>(ParseUser.class);
+                    ParseUser parseUser = getUser.get(message.getOwner());
+                    User userNew = new User(parseUser);
+                    userDao.insertUser(userNew);
+                    result.add(new MessageWithUser(userNew, message));
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
-            List<Message> messages = messageDao.getMessagesBeforeDate(chat, date);
-            messageLiveData.postValue(messages);
+
+
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("direction",TYPE_ADD_END);
+            map.put("list",result);
+
+            messageWithUserLiveData.postValue(map);
+            //messageLiveData.postValue(messages);
             return null;
         }
 
+    }
+
+    private static class GetSingleMessage extends AsyncTask<Void, Void, Void> {
+
+        Message message;
+        UserDao userDao;
+        MutableLiveData<Map<String, Object>> messageWithUserLiveData;
+
+        public GetSingleMessage(Message message, UserDao userDao, MutableLiveData<Map<String, Object>> messageWithUserLiveData) {
+            this.message = message;
+            this.userDao = userDao;
+            this.messageWithUserLiveData = messageWithUserLiveData;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            User user = userDao.getUserByIdSync(message.getOwner());
+            List<MessageWithUser> result = new ArrayList<>();
+            if (user != null) {
+                result.add(new MessageWithUser(user, message));
+            }
+            try {
+                ParseQuery<ParseUser> getUser = new ParseQuery<ParseUser>(ParseUser.class);
+                ParseUser parseUser = getUser.get(message.getOwner());
+                User userNew = new User(parseUser);
+                userDao.insertUser(userNew);
+                result.add(new MessageWithUser(userNew, message));
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Map<String, Object> map = new HashMap<>();
+            map.put("direction",TYPE_ADD_START);
+            map.put("list",result);
+            messageWithUserLiveData.postValue(map);
+            return null;
+        }
     }
 
 }

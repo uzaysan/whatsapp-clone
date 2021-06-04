@@ -14,4 +14,8 @@
     <string name="login">Login</string>
     <string name="register">Register</string>m
     <string name="members"> members</string>
+    <string name="loadmore">Load more</string>
+    <string name="searchuser">Search user</string>
+    <string name="create">Create</string>
+    <string name="chatname">Chat name</string>
 </resources>

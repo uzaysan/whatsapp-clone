@@ -39,7 +39,7 @@ public interface ChatDao {
     @Query("DELETE FROM chat_table")
     void deleteAllChats();
 
-    @Query("SELECT * FROM chat_table ORDER BY updatedAt DESC")
+    @Query("SELECT * FROM chat_table ORDER BY lastMessageDate DESC")
     LiveData<List<Chat>> getAllChats();
 
     @Query("SELECT * FROM chat_table WHERE id=:id")
