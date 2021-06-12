@@ -1,4 +1,4 @@
-package com.uzaysan.whatsappclone.database;
+package com.uzaysan.whatsappclone.data;
 
 import android.content.Context;
 
@@ -6,12 +6,9 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.uzaysan.whatsappclone.models.chat.Chat;
-import com.uzaysan.whatsappclone.models.chat.ChatDao;
-import com.uzaysan.whatsappclone.models.message.Message;
-import com.uzaysan.whatsappclone.models.message.MessageDao;
-import com.uzaysan.whatsappclone.models.user.User;
-import com.uzaysan.whatsappclone.models.user.UserDao;
+import com.uzaysan.whatsappclone.models.Chat;
+import com.uzaysan.whatsappclone.models.Message;
+import com.uzaysan.whatsappclone.models.User;
 
 @Database(entities = {Chat.class, User.class, Message.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

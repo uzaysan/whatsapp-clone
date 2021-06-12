@@ -13,12 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestManager;
 import com.parse.ParseUser;
 import com.uzaysan.whatsappclone.R;
-import com.uzaysan.whatsappclone.models.chat.Chat;
-import com.uzaysan.whatsappclone.models.message.Message;
-import com.uzaysan.whatsappclone.models.message.MessageWithUser;
-import com.uzaysan.whatsappclone.models.user.User;
+import com.uzaysan.whatsappclone.models.Message;
+import com.uzaysan.whatsappclone.models.MessageWithUser;
+import com.uzaysan.whatsappclone.models.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;

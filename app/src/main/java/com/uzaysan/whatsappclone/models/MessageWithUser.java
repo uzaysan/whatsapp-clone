@@ -1,7 +1,5 @@
-package com.uzaysan.whatsappclone.models.message;
+package com.uzaysan.whatsappclone.models;
 
-
-import com.uzaysan.whatsappclone.models.user.User;
 
 public class MessageWithUser {
 

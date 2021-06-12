@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -23,9 +22,9 @@ import com.quarkworks.roundedframelayout.RoundedFrameLayout;
 import com.uzaysan.whatsappclone.R;
 import com.uzaysan.whatsappclone.adapters.MessagesAdapter;
 import com.uzaysan.whatsappclone.helper.TypeConverter;
-import com.uzaysan.whatsappclone.models.chat.Chat;
-import com.uzaysan.whatsappclone.models.message.Message;
-import com.uzaysan.whatsappclone.models.message.MessageWithUser;
+import com.uzaysan.whatsappclone.models.Chat;
+import com.uzaysan.whatsappclone.models.Message;
+import com.uzaysan.whatsappclone.models.MessageWithUser;
 import com.uzaysan.whatsappclone.parseclasses.ParseMessage;
 import com.uzaysan.whatsappclone.viewmodels.ChatViewModel;
 import com.uzaysan.whatsappclone.viewmodels.MessageViewModel;
@@ -111,7 +110,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
                  .load(chat.getChatIcon())
                  .into(chatIcon);
          chatName.setText(chat.getChatName());
-         chatMembers.setText(String.format("%d%s", TypeConverter.arrayFromString(chat.getMembers()).size(), getString(R.string.members)));
+         chatMembers.setText(String.format("%d %s", TypeConverter.arrayFromString(chat.getMembers()).size(), getString(R.string.members)));
      }
 
      @Override
@@ -145,13 +144,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
         if(this.chat == null) {
 
             this.chat = chat;
-
-            messageViewModel.getMessageLiveData(chat.getId()).observe(this, new Observer<List<Message>>() {
-                @Override
-                public void onChanged(List<Message> messageList) {
-                    //addItems(messageList, MessageViewModel.TYPE_ADD_END);
-                }
-            });
 
             messageViewModel.getMessageWithUserLiveData().observe(this, new Observer<Map<String, Object>>() {
                 @Override

@@ -1,4 +1,4 @@
-package com.uzaysan.whatsappclone.models.chat;
+package com.uzaysan.whatsappclone.data;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -8,7 +8,8 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.uzaysan.whatsappclone.models.user.User;
+import com.uzaysan.whatsappclone.models.Chat;
+import com.uzaysan.whatsappclone.models.User;
 
 import java.util.List;
 

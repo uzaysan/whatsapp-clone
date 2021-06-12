@@ -2,26 +2,21 @@ package com.uzaysan.whatsappclone.viewmodels;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.livequery.ParseLiveQueryClient;
 import com.parse.livequery.SubscriptionHandling;
-import com.uzaysan.whatsappclone.models.user.User;
-import com.uzaysan.whatsappclone.models.user.UserDao;
-import com.uzaysan.whatsappclone.models.user.UserRepository;
+import com.uzaysan.whatsappclone.models.User;
+import com.uzaysan.whatsappclone.data.UserDao;
+import com.uzaysan.whatsappclone.data.UserRepository;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 

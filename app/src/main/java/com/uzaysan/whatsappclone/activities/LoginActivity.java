@@ -1,6 +1,5 @@
 package com.uzaysan.whatsappclone.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,16 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.uzaysan.whatsappclone.R;
-import com.uzaysan.whatsappclone.models.user.User;
-import com.uzaysan.whatsappclone.models.user.UserRepository;
+import com.uzaysan.whatsappclone.models.User;
+import com.uzaysan.whatsappclone.data.UserRepository;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, SignUpCallback, LogInCallback {
 

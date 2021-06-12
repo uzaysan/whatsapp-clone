@@ -2,7 +2,6 @@ package com.uzaysan.whatsappclone.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -26,15 +25,12 @@ import com.parse.SaveCallback;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.uzaysan.whatsappclone.App;
 import com.uzaysan.whatsappclone.R;
-import com.uzaysan.whatsappclone.models.chat.Chat;
-import com.uzaysan.whatsappclone.models.chat.ChatRepository;
+import com.uzaysan.whatsappclone.models.Chat;
+import com.uzaysan.whatsappclone.data.ChatRepository;
 import com.uzaysan.whatsappclone.parseclasses.ParseChat;
-import com.uzaysan.whatsappclone.viewmodels.ChatViewModel;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 public class CreateNewChatActivity extends AppCompatActivity implements View.OnClickListener, SaveCallback {

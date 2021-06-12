@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.parse.ParseUser;
 import com.uzaysan.whatsappclone.R;
-import com.uzaysan.whatsappclone.models.user.User;
+import com.uzaysan.whatsappclone.models.User;
 import com.uzaysan.whatsappclone.viewmodels.UserViewModel;
 
 import de.hdodenhof.circleimageview.CircleImageView;

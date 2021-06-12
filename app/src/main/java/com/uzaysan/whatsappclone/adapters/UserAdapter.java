@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
 import com.uzaysan.whatsappclone.R;
-import com.uzaysan.whatsappclone.models.user.User;
-
-import org.w3c.dom.Text;
+import com.uzaysan.whatsappclone.models.User;
 
 import java.util.ArrayList;
 import java.util.List;

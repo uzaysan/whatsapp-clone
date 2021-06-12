@@ -1,10 +1,9 @@
-package com.uzaysan.whatsappclone.models.message;
+package com.uzaysan.whatsappclone.models;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.uzaysan.whatsappclone.models.user.User;
 import com.uzaysan.whatsappclone.parseclasses.ParseMessage;
 
 import org.jetbrains.annotations.NotNull;

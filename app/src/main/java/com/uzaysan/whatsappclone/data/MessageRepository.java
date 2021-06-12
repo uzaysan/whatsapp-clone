@@ -1,19 +1,13 @@
-package com.uzaysan.whatsappclone.models.message;
+package com.uzaysan.whatsappclone.data;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import com.uzaysan.whatsappclone.database.AppDatabase;
-import com.uzaysan.whatsappclone.models.chat.Chat;
-import com.uzaysan.whatsappclone.models.chat.ChatDao;
-import com.uzaysan.whatsappclone.models.chat.ChatRepository;
-import com.uzaysan.whatsappclone.models.user.UserDao;
+import com.uzaysan.whatsappclone.models.Message;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MessageRepository {

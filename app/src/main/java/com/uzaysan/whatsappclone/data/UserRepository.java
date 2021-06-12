@@ -1,13 +1,11 @@
-package com.uzaysan.whatsappclone.models.user;
+package com.uzaysan.whatsappclone.data;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.uzaysan.whatsappclone.database.AppDatabase;
-import com.uzaysan.whatsappclone.models.chat.Chat;
-import com.uzaysan.whatsappclone.models.chat.ChatDao;
+import com.uzaysan.whatsappclone.models.User;
 
 import java.util.ArrayList;
 import java.util.List;

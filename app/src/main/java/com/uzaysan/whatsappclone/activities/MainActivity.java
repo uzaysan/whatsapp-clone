@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.parse.ParseUser;
 import com.uzaysan.whatsappclone.R;
 import com.uzaysan.whatsappclone.adapters.ChatsAdapter;
-import com.uzaysan.whatsappclone.models.chat.Chat;
+import com.uzaysan.whatsappclone.models.Chat;
 import com.uzaysan.whatsappclone.viewmodels.ChatViewModel;
 
 import java.util.List;
@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity
 
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         chatViewModel.getChats().observe(this,this);
-        chatViewModel.listenData();
 
         FrameLayout addNewChat = findViewById(R.id.addNewChat);
         addNewChat.setOnClickListener(new View.OnClickListener() {

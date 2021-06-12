@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
 import com.uzaysan.whatsappclone.R;
-import com.uzaysan.whatsappclone.models.chat.Chat;
+import com.uzaysan.whatsappclone.models.Chat;
 
 import java.util.ArrayList;
 import java.util.List;

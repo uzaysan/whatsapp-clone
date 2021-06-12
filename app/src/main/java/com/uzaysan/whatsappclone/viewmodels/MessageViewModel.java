@@ -8,23 +8,21 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.livequery.ParseLiveQueryClient;
 import com.parse.livequery.SubscriptionHandling;
-import com.uzaysan.whatsappclone.models.chat.Chat;
-import com.uzaysan.whatsappclone.models.message.Message;
-import com.uzaysan.whatsappclone.models.message.MessageDao;
-import com.uzaysan.whatsappclone.models.message.MessageRepository;
-import com.uzaysan.whatsappclone.models.message.MessageWithUser;
-import com.uzaysan.whatsappclone.models.user.User;
-import com.uzaysan.whatsappclone.models.user.UserDao;
-import com.uzaysan.whatsappclone.parseclasses.ParseChat;
+import com.uzaysan.whatsappclone.models.Message;
+import com.uzaysan.whatsappclone.data.MessageDao;
+import com.uzaysan.whatsappclone.data.MessageRepository;
+import com.uzaysan.whatsappclone.models.MessageWithUser;
+import com.uzaysan.whatsappclone.models.User;
+import com.uzaysan.whatsappclone.data.UserDao;
 import com.uzaysan.whatsappclone.parseclasses.ParseMessage;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,11 +31,8 @@ public class MessageViewModel extends AndroidViewModel {
 
     public static final int TYPE_ADD_END = 1;
     public static final int TYPE_ADD_START = -1;
-    public static final int TYPE_INIT = 0;
 
-    ParseLiveQueryClient parseLiveQueryClient;
     MessageRepository messageRepository;
-    MutableLiveData<List<Message>> messageLiveData;
     MutableLiveData<Map<String, Object>> messageWithUserLiveData;
 
 
@@ -51,21 +46,22 @@ public class MessageViewModel extends AndroidViewModel {
         userDao = messageRepository.getUserDao();
     }
 
-    public MutableLiveData<List<Message>> getMessageLiveData(String chat) {
-        //messageLiveData = messageRepository.getMessages(chat);
-        messageLiveData = new MutableLiveData<>();
-        startListen(chat);
-        return messageLiveData;
-
-    }
-
     public MutableLiveData<Map<String, Object>> getMessageWithUserLiveData() {
         messageWithUserLiveData = new MutableLiveData<>();
-
         return messageWithUserLiveData;
     }
 
     public LiveData<List<Message>> getRealtimeUpdates(String chat) {
+        /*ParseQuery<ParseMessage> parseQuery = new ParseQuery<>(ParseMessage.class);
+        parseQuery.whereEqualTo("chat",chat);
+        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+        SubscriptionHandling<ParseMessage> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+        subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseMessage>() {
+            @Override
+            public void onEvents(ParseQuery<ParseMessage> query, SubscriptionHandling.Event event, ParseMessage object) {
+                if(object != null) messageRepository.insert(new Message(object));
+            }
+        });*/
         return messageRepository.getMessages(chat);
     }
 
@@ -76,40 +72,6 @@ public class MessageViewModel extends AndroidViewModel {
 
     public void loadSingleMessage(Message message) {
         new GetSingleMessage(message, userDao, messageWithUserLiveData).execute();
-    }
-
-    public void startListen(String chat) {
-
-
-        ParseQuery<ParseMessage> getMessages = new ParseQuery<ParseMessage>(ParseMessage.class);
-        getMessages.whereEqualTo("chat",chat);
-        getMessages.setLimit(1000);
-        getMessages.findInBackground(new FindCallback<ParseMessage>() {
-            @Override
-            public void done(List<ParseMessage> objects, ParseException e) {
-                if(e != null) return;
-
-                List<Message> messages = new ArrayList<>();
-                for(ParseMessage message : objects) {
-                    messages.add(new Message(message));
-                }
-                messageRepository.insertAll(messages);
-            }
-        });
-
-        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
-        ParseQuery<ParseMessage> parseQuery = new ParseQuery<ParseMessage>(ParseMessage.class);
-        parseQuery.whereEqualTo("chat",chat);
-
-        SubscriptionHandling<ParseMessage> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
-        subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseMessage>() {
-            @Override
-            public void onEvents(ParseQuery<ParseMessage> query, SubscriptionHandling.Event event, ParseMessage object) {
-                if(object != null) messageRepository.insert(new Message(object));
-            }
-        });
-
-
     }
 
     private static class GetMessages extends AsyncTask<Void, Void, Void> {
@@ -133,43 +95,35 @@ public class MessageViewModel extends AndroidViewModel {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            List<Message> messages;
-            if(date == 0) {
-                messages = messageDao.getMessagesInit(chat);
-            }
-            else {
-                messages = messageDao.getMessagesBeforeDate(chat, date);
-            }
-            List<MessageWithUser> result = new ArrayList<>();
-
-            for (int i = 0; i < messages.size() - 1; i++) {
-                Message message = messages.get(i);
-                User user = userDao.getUserByIdSync(message.getOwner());
-                if (user != null) {
-                    result.add(new MessageWithUser(user, message));
-                    continue;
+            List<Message> messages = new ArrayList<>();
+            try {
+                if (date == 0) {
+                    messages = messageDao.getMessagesInit(chat);
+                } else {
+                    messages = messageDao.getMessagesBeforeDate(chat, date);
                 }
-
-                try {
-                    ParseQuery<ParseUser> getUser = new ParseQuery<ParseUser>(ParseUser.class);
+                List<MessageWithUser> result = new ArrayList<>();
+                for (int i = 0; i < messages.size() - 1; i++) {
+                    Message message = messages.get(i);
+                    User user = userDao.getUserByIdSync(message.getOwner());
+                    if (user != null) {
+                        result.add(new MessageWithUser(user, message));
+                        continue;
+                    }
+                    ParseQuery<ParseUser> getUser = new ParseQuery<>(ParseUser.class);
                     ParseUser parseUser = getUser.get(message.getOwner());
                     User userNew = new User(parseUser);
                     userDao.insertUser(userNew);
                     result.add(new MessageWithUser(userNew, message));
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
+                Map<String, Object> map = new HashMap<>();
+                map.put("direction", TYPE_ADD_END);
+                map.put("list", result);
+
+                messageWithUserLiveData.postValue(map);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-
-
-
-            Map<String, Object> map = new HashMap<>();
-            map.put("direction",TYPE_ADD_END);
-            map.put("list",result);
-
-            messageWithUserLiveData.postValue(map);
-            //messageLiveData.postValue(messages);
             return null;
         }
 

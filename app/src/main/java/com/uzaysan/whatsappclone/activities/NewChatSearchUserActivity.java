@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.quarkworks.roundedframelayout.RoundedFrameLayout;
@@ -21,7 +19,7 @@ import com.uzaysan.whatsappclone.App;
 import com.uzaysan.whatsappclone.R;
 import com.uzaysan.whatsappclone.adapters.SelectedUserAdapter;
 import com.uzaysan.whatsappclone.adapters.UserAdapter;
-import com.uzaysan.whatsappclone.models.user.User;
+import com.uzaysan.whatsappclone.models.User;
 import com.uzaysan.whatsappclone.viewmodels.UserViewModel;
 
 import java.util.ArrayList;
